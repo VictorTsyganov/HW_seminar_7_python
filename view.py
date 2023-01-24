@@ -1,3 +1,15 @@
+def chek_user_input(max_val, min_val = 1):
+    while True:
+        try:
+            user_input = int(input('Input number '))
+            if user_input in range(min_val, len(max_val) + 1):
+                return user_input
+            else:
+                print('Wrong_input')
+                
+        except:
+            print('Wrong_input')
+
 def main_menu():
     print('menu_list')
     menu_list = [
@@ -14,15 +26,9 @@ def main_menu():
     for i in range(len(menu_list)):
         print(f'\t{i+1}. {menu_list[i]}')
 
-    while True:
-        try:
-            user_input = int(input('Enter_command: '))
-            if type(user_input) == int and user_input in range(1, 9):
-                return user_input
-            else:
-                print('Wrong_input')
-        except:
-            print('Wrong_input')
+    print('Enter_command: ')
+    user_input = chek_user_input(menu_list)
+    return user_input
     
 def show_all(db: list):
     if db_success(db):
@@ -52,6 +58,7 @@ def new_contact():
     dict_new_contact['firstname'] = input(f'\tInput firstname: ')
     dict_new_contact['phone'] = input(f'\tInput phone: ')
     dict_new_contact['comment'] = input(f'\tInput comment: ')
+    print("Data has added. Don't forget save it.")
     return dict_new_contact
     
 def find_contact(db: list):
@@ -71,35 +78,23 @@ def find_contact(db: list):
 def del_contact(db: list):
     if db_success(db):
         show_all(db)
-        while True:
-            try:
-                contact_for_del = int(input('Select the contact number to delete '))
-                if type(contact_for_del) == int and contact_for_del in range(1, len(db) + 1):
-                    deleted_contact = ';'.join(db[contact_for_del - 1].values())
-                    print(f'\tContact deleted!')
-                    return deleted_contact
-                else:
-                    print('Wrong_input')
-            except:
-                print('Wrong_input')
+        print('Select the contact number to delete ')
+        contact_for_del = chek_user_input(db)
+        deleted_contact = ';'.join(db[contact_for_del - 1].values())
+        print(f'\tContact deleted!')
+        return deleted_contact
 
 def change_contact(db: list):
     if db_success(db):
         show_all(db)
-        while True:
-            try:
-                contact_for_change = int(input('Select the contact number to change '))
-                if type(contact_for_change) == int and contact_for_change in range(1, len(db) + 1):
-                    db[contact_for_change - 1]['lastname'] = input('Input new lastname ')
-                    db[contact_for_change - 1]['firstname'] = input('Input new firstname ')
-                    db[contact_for_change - 1]['phone'] = input('Input new phone ')
-                    db[contact_for_change - 1]['comment'] = input('Input new comment ')
-                    print(f'\tContact changed!')
-                    return db
-                else:
-                    print('Wrong_input')
-            except:
-                print('Wrong_input')
+        print('Select the contact number to change ')
+        contact_for_change = chek_user_input(db)
+        db[contact_for_change - 1]['lastname'] = input('Input new lastname ')
+        db[contact_for_change - 1]['firstname'] = input('Input new firstname ')
+        db[contact_for_change - 1]['phone'] = input('Input new phone ')
+        db[contact_for_change - 1]['comment'] = input('Input new comment ')
+        print(f'\tContact changed!')
+        return db
 
 def success_save():
     print(f'\tContact saved!')
